@@ -3,6 +3,8 @@ import './Clock.css';
 
 export default function Clock() {
   const [time, setTime] = useState(new Date());
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -19,21 +21,45 @@ export default function Clock() {
   const minuteDegree = minutes * 6 + seconds * 0.1;
   const secondDegree = seconds * 6;
 
+  const timeString = `${hours}:${minutes}:${seconds}`;
+
+  const handleMouseMove = (e) => {
+    setTooltipPosition({ x: e.clientX + 10, y: e.clientY - 30 });
+  };
+
   return (
     <div className="container">
       <div
-        className="hour-hand"
-        style={{ transform: `rotate(${hourDegree}deg)` }}
-      />
-      <div
-        className="minute-hand"
-        style={{ transform: `rotate(${minuteDegree}deg)` }}
-      />
-      <div
-        className="second-hand"
-        style={{ transform: `rotate(${secondDegree}deg)` }}
-      />
-      <div className="center" />
+        className="clock"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        onMouseMove={handleMouseMove}
+      >
+        <div
+          className="hour-hand"
+          style={{ transform: `rotate(${hourDegree}deg)` }}
+          title={timeString}
+        />
+        <div
+          className="minute-hand"
+          style={{ transform: `rotate(${minuteDegree}deg)` }}
+          title={timeString}
+        />
+        <div
+          className="second-hand"
+          style={{ transform: `rotate(${secondDegree}deg)` }}
+          title={timeString}
+        />
+        <div className="center" />
+      </div>
+      {showTooltip && (
+        <div
+          className="tooltip"
+          style={{ top: tooltipPosition.y, left: tooltipPosition.x }}
+        >
+          {time.toLocaleTimeString()}
+        </div>
+      )}
     </div>
   );
 }
