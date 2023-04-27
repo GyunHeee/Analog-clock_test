@@ -10,9 +10,7 @@
   margin-top: 50px;
 }
 
-.hour-hand,
-.minute-hand,
-.second-hand {
+.hand {
   position: absolute;
   top: 50%;
   left: 50%;

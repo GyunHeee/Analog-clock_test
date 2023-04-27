@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './Clock.css';
+import ClockType from './ClockType';
+import { ClockContext } from '../context/TimeProvider';
 
 export default function Clock() {
-  const [time, setTime] = useState(new Date());
+  const time = useContext(ClockContext) || new Date();
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
+  const [hourDegree, setHourDegree] = useState(0);
+  const [minuteDegree, setMinuteDegree] = useState(0);
+  const [secondDegree, setSecondDegree] = useState(0);
+
+  // 위의 처리를 통해 시침,분침,초침이 자동으로 움직임
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setTime(new Date());
+      const hours = time.getHours();
+      const minutes = time.getMinutes();
+      const seconds = time.getSeconds();
+
+      const hourDegree = hours * 30 + minutes * 0.5;
+      const minuteDegree = minutes * 6 + seconds * 0.1;
+      const secondDegree = seconds * 6;
+
+      setHourDegree(hourDegree);
+      setMinuteDegree(minuteDegree);
+      setSecondDegree(secondDegree);
     }, 1000);
+
     return () => clearInterval(intervalId);
-  }, []);
-
-  const hours = time.getHours();
-  const minutes = time.getMinutes();
-  const seconds = time.getSeconds();
-
-  const hourDegree = hours * 30 + minutes * 0.5;
-  const minuteDegree = minutes * 6 + seconds * 0.1;
-  const secondDegree = seconds * 6;
-
-  const timeString = `${hours}:${minutes}:${seconds}`;
+  }, [time]);
 
   const handleMouseMove = (e) => {
     setTooltipPosition({ x: e.clientX + 10, y: e.clientY - 30 });
@@ -35,21 +43,9 @@ export default function Clock() {
         onMouseLeave={() => setShowTooltip(false)}
         onMouseMove={handleMouseMove}
       >
-        <div
-          className="hour-hand"
-          style={{ transform: `rotate(${hourDegree}deg)` }}
-          title={timeString}
-        />
-        <div
-          className="minute-hand"
-          style={{ transform: `rotate(${minuteDegree}deg)` }}
-          title={timeString}
-        />
-        <div
-          className="second-hand"
-          style={{ transform: `rotate(${secondDegree}deg)` }}
-          title={timeString}
-        />
+        <ClockType deg={hourDegree} width={4} height={45} color="black" />
+        <ClockType deg={minuteDegree} width={3} height={60} color="black" />
+        <ClockType deg={secondDegree} width={2} height={80} color="black" />
         <div className="center" />
       </div>
       {showTooltip && (
