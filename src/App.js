@@ -1,9 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import Clock from './components/Clock';
+import TimeProvider from './context/TimeProvider';
 
 function App() {
-  return <Clock />;
+  return (
+    <TimeProvider>
+      <Clock />;
+    </TimeProvider>
+  );
 }
 
 export default App;
