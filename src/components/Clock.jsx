@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './Clock.css';
 import ClockType from './ClockType';
 import { useRecoilValue } from 'recoil';
-import { timeState } from '../context/TimeProvider';
+import { timeState } from '../recoil/TimeProvider';
 
 export default function Clock() {
   const time = useRecoilValue(timeState);
@@ -27,7 +27,6 @@ export default function Clock() {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [calculateDegree]);
-  console.log(calculateDegree());
 
   const handleMouseMove = (e) => {
     setTooltipPosition({ x: e.clientX + 10, y: e.clientY - 30 });
