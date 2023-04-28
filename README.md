@@ -12,3 +12,11 @@
 - Clock 컴포넌트는 시계의 모든 요소를 렌더링하고, TimeProvider 컴포넌트에서 제공하는 전역 상태를 사용합니다.
 - ClockType 컴포넌트는 시침, 분침, 초침을 나타내는 부분을 담당합니다. 이 컴포넌트는 독립적으로 작동하며, Clock 컴포넌트에서 호출될 때 필요한 속성들을 전달 받아 시침, 분침, 초침을 렌더링합니다.
 - TimeProvider 컴포넌트는 애플리케이션에서 사용할 수 있는 전역 상태를 관리합니다. 이 컴포넌트에서는 매 초마다 현재 시간을 계산하여 상태를 업데이트합니다.
+
+# 화면 상세
+
+![image](https://user-images.githubusercontent.com/92011224/235090885-ecd853dd-6bd9-44a5-8c5d-e60b34bcee66.png)
+
+# Depoly
+
+https://analog-clock-test.netlify.app/
